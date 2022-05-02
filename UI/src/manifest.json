@@ -1,0 +1,9 @@
+{
+    "short_name": "hms",
+    "name": "Hotel Management System",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff",
+    "version": "1.0"
+}

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-2/css/all.min.css"
+    integrity="sha512-61a6zi50gYXGgd/n9+ZT2/RKnXr6lkRoWlS88AjFdoUHaIDnyBAcoE0Vs/QDU3lK3nCcUowNDqmQ8WaV0yT4qw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"
+    integrity="sha512-x/vqovXY/Q4b+rNjgiheBsA/vbWA3IVvsS8lkQSX1gQ4ggSJx38oI2vREZXpTzhAv6tNUaX81E7QBBzkpDQayA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <link rel="stylesheet" href="./styles/styles.css">
+
+  <title>Hotel Management System</title>
+
+</head>
+
+<body ng-app="hmsApp">
+
+  <div ng-show="errorMessage" id="error-message" class="alert alert-danger" role="alert" ng-cloak>
+    <h5>
+      <i class="fas fa-exclamation-triangle"></i> Oops, something went wrong...
+    </h5>
+    <p>{{errorMessage}}</p>
+  </div>
+
+  <div ng-show="infoMessage" id="info-message" class="alert alert-info" role="contentinfo" ng-cloak>
+    <h5>
+      <i class="fas fa-info"></i> Success
+    </h5>
+    <p>{{infoMessage}}</p>
+  </div>
+
+  <div id="loading-panel" ng-show="loading" ng-cloak>
+  </div>
+  <div id="loading-panel-box" ng-show="loading" class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="10"
+      aria-valuemin="0" aria-valuemax="100" style="width: 10%"></div>
+  </div>
+
+  <div class="full-height full-width d-flex">
+    <div id="menuDiv" class="wrapper d-flex align-items-stretch" ng-show="authorized">
+      <nav id="sideIconbar" class="active">
+        <div class="p-4 pt-5" style="margin-top: 100px;">
+          <ul class="list-unstyled components mb-5">
+            <li ng-show="isAdmin" class="active">
+              <a href="#!/home" data-toggle="tooltip" data-placement="right" title="Hotel Rooms"><i
+                  class="fas fa-home"></i></a>
+            </li>
+            <li ng-show="isAdmin">
+              <a href="#!/bookings" data-toggle="tooltip" data-placement="right" title="Hotel Bookings"><i
+                  class="fas fa-clipboard-list"></i></a>
+            </li>
+            <li ng-show="isUser">
+              <a href="#!/mybookings" data-toggle="tooltip" data-placement="right" title="My Bookings"><i
+                  class="fas fa-clipboard-list"></i></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <nav id="sidebar" class="">
+        <div class="custom-menu">
+          <button type="button" id="sidebarCollapse" class="btn btn-primary">
+            <i class="fa fa-bars"></i>
+            <span class="sr-only"></span>
+          </button>
+        </div>
+        <div class="p-4 pt-5">
+          <a href="#!/home" class="logo"><img class="img-responsive"
+              style="width: 120%;margin-left: -11px;margin-bottom: 15px;border-radius: 75px"
+              src="./images/logo.jpg" /></a>
+          <ul class="list-unstyled components mb-5">
+            <li ng-show="isAdmin" class="active">
+              <a href="#!/home"> <i class="fas fa-home"></i> Hotel Rooms</a>
+            </li>
+            <li ng-show="isAdmin">
+              <a href="#!/bookings"><i class="fas fa-clipboard-list"></i> Hotel bookings</a>
+            </li>
+            <li ng-show="isUser">
+              <a href="#!/mybookings"><i class="fas fa-clipboard-list"></i> My bookings</a>
+            </li>
+          </ul>
+        </div>
+        <div class="p-4 pt-5">
+          <p class="p-4 pt-5" style="left:0;bottom:0;position:absolute;font-size: 15px;"><span
+              style="font-weight: bolder;">Release
+              Date:<br /></span> April 20, 2022</p>
+        </div>
+      </nav>
+    </div>
+    <div class="main-content">
+      <div ng-view class="full-height"></div>
+    </div>
+  </div>
+
+  <!-- jQuery and Bootstrap -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js"></script>
+
+  <!-- <script type="text/javascript"
+    src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/b-html5-1.6.1/b-print-1.6.1/r-2.2.3/datatables.min.js"></script> -->
+
+  
+  <script src="scripts/app.js"></script>
+  <script src="scripts/services/utils.js"></script>
+  <script src="scripts/controllers/mainController.js"></script>
+  <script src="scripts/controllers/mybookingsController.js"></script>
+  <script src="scripts/controllers/loginController.js"></script>
+  <script src="scripts/controllers/bookingsController.js"></script>
+  <script src="scripts/services/hmsService.js"></script>
+  <script src="scripts/services/authenticationService.js"></script>
+
+  <script>
+    $(function () {
+
+      $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+        $('#sideIconbar').toggleClass('active');
+        $('#menuDiv').toggleClass('active');
+      });
+
+      $('nav li a').click(function (obj) {
+        $('nav li').removeClass('active');
+        $(this).parent().addClass('active');
+      });
+
+      $('[data-toggle="tooltip"]').tooltip();
+
+      let idx = window.location.href.split('/').length
+      $('nav li').removeClass('active');
+      $('a[href="#!/' + window.location.href.split('/')[idx - 1] + '"]').parent().addClass('active')
+
+    });
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,181 @@
+<div class="container-fluid inner-content full-height" ng-cloak>
+
+    <!--  Rooms View  -->
+    <div class="row" style="height: auto; max-height: 100%; overflow: auto;">
+        <div class="col-xs-12 col-sm-12 col-sm-push-3">
+            <div class="alert alert-secondary" role="alert">
+                <nav class="navbar navbar-expand-sm navbar-secondary m-0 p-0">
+                    <div class="collapse navbar-collapse" style="display: block !important;">
+                        <div class="collapse navbar-collapse float-right">
+                            <button ng-click="BookRoom()" type="button" class="btn btn-success btn-sm ml-2"
+                                title="Book Room">
+                                <i class="fas fa-exchange-alt"></i> Book Room
+                            </button>
+                        </div>
+                        <div class="collapse navbar-collapse float-right">
+                            <button ng-click="ShowAvailability()" type="button" class="btn btn-success btn-sm ml-2"
+                                title="Check Room">
+                                <i class="fas fa-exchange-alt"></i> Check Availability
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+            <table id="bookingListTable" class="table table-hover table-sm custom-table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th scope="col">Room No</th>
+                        <th scope="col">Room Name</th>
+                        <th scope="col">Booked By</th>
+                        <th scope="col">From Date</th>
+                        <th scope="col">To Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="booking in bookingList">
+                        <td class="word-wrap" style="width: 27%;">{{booking.RoomNo}}</td>
+                        <td class="word-wrap" style="width: 30%;">{{booking.RoomName}}</td>
+                        <td class="word-wrap" style="width: 15%;">{{booking.BookedBy}}</td>
+                        <td class="word-wrap" style="width: 15%;">{{booking.FromDate}}</td>
+                        <td class="word-wrap" style="width: 15%;">{{booking.ToDate}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div>
+        <div id="addRoomModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-wide">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="exampleModalLabel">
+                            <i class="fas fa-exchange-alt"></i> Book Room
+                        </h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="hms-modal-body">
+                        <div class="row modal-row">
+                            <div class="col modal-col-left modal-col-right">
+                                <div class="card transfer-card">
+                                    <div class="card-header p-1">
+                                        Booking Details
+                                    </div>
+                                    <div class="card-body p-1">
+                                        <div class="scrollable-box">
+                                            <form role="form" class="well">
+                                                <div class="form-group">
+                                                    <label> Start Date: </label>
+                                                    <input type="date" class="form-control" name="input"
+                                                        ng-model="newBooking.StartDate" placeholder="yyyy-MM-dd"
+                                                        min="{{newBooking.StartDate | date: 'yyyy-MM-dd'}}" required />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> End Date: </label>
+                                                    <input type="date" class="form-control" name="input"
+                                                        ng-model="newBooking.EndDate" placeholder="yyyy-MM-dd"
+                                                        min="{{newBooking.StartDate | date: 'yyyy-MM-dd'}}" required />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> Room: </label>
+                                                    <select class="form-control" ng-model="newBooking.Room">
+                                                        <option value={{room.Id}} ng-repeat="room in roomList">
+                                                            {{room.RoomName}}</option>
+                                                    </select>
+                                                    <!-- <select class="form-control" 
+                                                        ng-options="room.RoomName for room in roomList track by room.Id"
+                                                        ng-model="newRoom.RoomType"></select> -->
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="AddNewBooking()" type="button" class="btn btn-success btn-sm">
+                            <i class="fas fa-exchange-alt"></i> Confirm</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
+                            <i class="fas fa-times"></i> Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div id="checkAvailabilityModal" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="availabilityModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-wide">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="availabilityModalLabel">
+                            <i class="fas fa-exchange-alt"></i> Availability Details
+                        </h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="hms-modal-body">
+                        <div class="row modal-row">
+                            <div class="col modal-col-left modal-col-right">
+                                <div class="card transfer-card1">
+                                    <div class="card-header p-1">
+                                        Enter Details
+                                    </div>
+                                    <div class="card-body p-1">
+                                        <div class="scrollable-box">
+                                            <form role="form" class="well">
+                                                <div class="form-group">
+                                                    <label> Start Date: </label>
+                                                    <input type="date" class="form-control" name="input"
+                                                        ng-model="checkAvailability.StartDate" placeholder="yyyy-MM-dd"
+                                                        min="{{checkAvailability.StartDate | date: 'yyyy-MM-dd'}}" required />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> End Date: </label>
+                                                    <input type="date" class="form-control" name="input"
+                                                        ng-model="checkAvailability.EndDate" placeholder="yyyy-MM-dd"
+                                                        min="{{checkAvailability.StartDate | date: 'yyyy-MM-dd'}}" required />
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <table id="availabilityTable" class="table table-hover table-sm custom-table"
+                                            style="width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Room No</th>
+                                                    <th scope="col">Room Name</th>
+                                                    <th scope="col">Room Type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="room in availableList">
+                                                    <td class="word-wrap" style="width: 27%;">{{room.RoomNo}}</td>
+                                                    <td class="word-wrap" style="width: 30%;">{{room.RoomName}}</td>
+                                                    <td class="word-wrap" style="width: 15%;">{{room.RoomType}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="CheckAvailability()" type="button" class="btn btn-success btn-sm">
+                            <i class="fas fa-exchange-alt"></i> Confirm</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
+                            <i class="fas fa-times"></i> Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
